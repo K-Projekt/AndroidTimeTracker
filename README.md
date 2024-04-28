@@ -1,6 +1,8 @@
 # TeamK
 ## Time Tracking App with PTO (paid time off) tracking
 ### Team: Sebastian Kreft @s-kreft, Damian Kreft @damiankreft
+This app lets users track time they spend in geofenced locations. Adding entries manually is also posible.
+Includes Paid Time Off tracking.
 Features:
 - Browse time spent in geofence
 - Switch views (day, week, month)
