@@ -1,6 +1,6 @@
 # TeamK
 ## Time Tracking App with PTO (paid time off) tracking
-### Team: Sebastian Kreft (@s-kreft), Damian Kreft (@damiankreft)
+### Team: Sebastian Kreft @s-kreft, Damian Kreft @damiankreft
 Features:
 - Browse time spent in geofence
 - Switch views (day, week, month)
