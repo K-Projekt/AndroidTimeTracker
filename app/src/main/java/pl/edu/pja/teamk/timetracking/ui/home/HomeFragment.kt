@@ -1,13 +1,18 @@
 package pl.edu.pja.teamk.timetracking.ui.home
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
+import java.text.DateFormat
+import java.util.Calendar
+import java.util.Date
 
 class HomeFragment : Fragment() {
 
@@ -32,6 +37,19 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        val calendar: CalendarView = binding.calendarView2
+
+        calendar.post {
+            val date = Calendar.getInstance()
+            date.timeInMillis = calendar.date
+            textView.text = date.get(Calendar.DAY_OF_MONTH).toString()
+
+        }
+        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            textView.text = dayOfMonth.toString()
+        }
+
         return root
     }
 
