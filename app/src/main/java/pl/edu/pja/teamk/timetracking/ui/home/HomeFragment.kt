@@ -1,6 +1,5 @@
 package pl.edu.pja.teamk.timetracking.ui.home
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +8,14 @@ import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import pl.edu.pja.teamk.timetracking.TimeEntryStore
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
-import java.text.DateFormat
 import java.util.Calendar
-import java.util.Date
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
+    lateinit var _store: TimeEntryStore
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -47,7 +45,8 @@ class HomeFragment : Fragment() {
 
         }
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            textView.text = dayOfMonth.toString()
+//            textView.text = dayOfMonth.toString()
+            textView.text = _store.testFun()
         }
 
         return root
