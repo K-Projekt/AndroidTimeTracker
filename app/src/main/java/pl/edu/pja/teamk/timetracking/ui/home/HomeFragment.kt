@@ -8,9 +8,11 @@ import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
 import java.util.Calendar
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
