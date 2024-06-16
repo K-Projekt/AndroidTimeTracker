@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import pl.edu.pja.teamk.timetracking.TimeEntryStore
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
 import java.util.Calendar
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    lateinit var _store: TimeEntryStore
+    private val viewModel: HomeViewModel by viewModels()
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -25,30 +27,28 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        _viewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
 
         val calendar: CalendarView = binding.calendarView2
 
-        calendar.post {
-            val date = Calendar.getInstance()
-            date.timeInMillis = calendar.date
-            textView.text = date.get(Calendar.DAY_OF_MONTH).toString()
+        textView.text = viewModel.testText.value
+//        calendar.post {
+//            val date = Calendar.getInstance()
+//            date.timeInMillis = calendar.date
+//            textView.text = date.get(Calendar.DAY_OF_MONTH).toString()
+//
+//        }
 
-        }
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
 //            textView.text = dayOfMonth.toString()
-            textView.text = _store.testFun()
+//            textView.text = viewModel.testText.value
         }
-
         return root
     }
 
