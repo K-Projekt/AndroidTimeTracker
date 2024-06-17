@@ -1,7 +1,3 @@
-This project has changed it's location.  
-You can find it [here \(repo\)](https://github.com/K-Projekt/AndroidTimeTracker) and [here\(kanban\)](https://github.com/orgs/K-Projekt/projects/2).
-
-
 # TeamK
 ## Time Tracking App with PTO (paid time off) tracking
 ### Team: Sebastian Kreft @s-kreft, Damian Kreft @damiankreft
