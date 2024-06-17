@@ -37,9 +37,21 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        store.loadData(applicationContext)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        store.loadData(applicationContext)
+    }
+
     override fun onPause() {
         super.onPause()
         // TODO: Damian Kreft - Replace mutableListOf with actual data.
-        store.saveData(applicationContext, mutableListOf())
+        store.saveData(applicationContext, store.data)
     }
 }
