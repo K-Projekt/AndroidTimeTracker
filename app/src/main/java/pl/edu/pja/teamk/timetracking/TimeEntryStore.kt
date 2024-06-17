@@ -1,13 +1,14 @@
 package pl.edu.pja.teamk.timetracking
 
 import android.content.Context
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.google.gson.Gson
 import java.io.File
 import java.util.Date
+import kotlin.time.Duration
 
 class TimeEntryStore() : TimeSource {
     init { }
+    val filename = "appdata"
     var data: MutableList<DayData> = mutableListOf()
 
     fun testFun(): String {
@@ -15,23 +16,38 @@ class TimeEntryStore() : TimeSource {
     }
 
     override fun loadData(context: Context) {
-        val json = Json { ignoreUnknownKeys = true }
-        val filename = "appdata"
+
+        // TODO: Damian Kreft - Replace with actual data.
+        if (!File(context.filesDir, filename).exists()) {
+            data = mutableListOf(
+                DayData(Date(), mutableListOf(
+                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT3H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
+                )),
+                DayData(Date(), mutableListOf(
+                    TimeEntry(Date(), Duration.parse("PT2H45M"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT3H30M"), "test", 1),
+                    TimeEntry(Date(), Duration.parse("PT30M"), "test", 1),
+                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
+                )))
+            return
+        }
+
         val file = File(context.filesDir, filename)
         val text = file.readText()
-        // handle exceptions
 
-        data = json.decodeFromString<MutableList<DayData>>(text)
+        // TODO: Handle exceptions.
+        data = Gson().fromJson(text, Array<DayData>::class.java).toMutableList()
     }
 
     override fun saveData(context: Context, data: MutableList<DayData>) {
-        val json = Json { ignoreUnknownKeys = true }
-        val dataJson = json.encodeToString(data)
-        val filename = "appdata"
+        val dataJson = Gson().toJson(data)
         val file = File(context.filesDir, filename)
         file.writeText(dataJson)
 
-        // handle exceptions
+        // TODO: Handle exceptions.
     }
 }
 

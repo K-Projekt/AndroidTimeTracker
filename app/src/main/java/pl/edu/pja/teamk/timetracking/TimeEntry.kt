@@ -1,9 +1,9 @@
 package pl.edu.pja.teamk.timetracking
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
-import java.time.Duration
 import java.util.Date
+import kotlin.time.Duration
+
 @Serializable
 data class TimeEntry(
     @Contextual
