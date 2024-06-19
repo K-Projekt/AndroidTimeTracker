@@ -1,6 +1,5 @@
 package pl.edu.pja.teamk.timetracking.ui.home
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,21 +8,20 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(handle: SavedStateHandle, private val store: TimeEntryStore) : ViewModel() {
-    var selectedDate: Date = Date()
+    val listObservers = mutableListOf<(Date) -> Unit>()
+    var selectedDate: Date by Delegates.observable(Date()) { _, _, _ ->
+        listObservers.forEach { it(selectedDate) }}
     val storeData: TimeEntryStore = store
+
     fun setSelectedDate(ticks: Long) {
         val date = Calendar.getInstance()
         date.timeInMillis = ticks
         selectedDate.time = ticks
     }
-
-    private val _testText = MutableLiveData<String>().apply {
-        value = store.testFun()
-    }
-    var testText: MutableLiveData<String> = _testText
 }
 
 fun areDateEqual(date1: Date, date2: Date): Boolean {
