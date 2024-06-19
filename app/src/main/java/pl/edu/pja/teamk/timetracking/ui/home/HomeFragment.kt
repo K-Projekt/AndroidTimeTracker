@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
-import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -31,6 +30,7 @@ class HomeFragment : Fragment() {
         val calendar: CalendarView = binding.calendarView2
 
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            viewModel.setSelectedDate(view.date)
         }
         return root
     }

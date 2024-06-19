@@ -1,25 +1,15 @@
 package pl.edu.pja.teamk.timetracking
 
 import android.app.Application
-import android.content.Context
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 @HiltAndroidApp
 class HiltApplication : Application() {
-//    init {
-//        if (application == null)
-//            application = this
-//    }
-//
-//    companion object {
-//        private lateinit var application: Application
-//
-//        fun getApplication(): Application {
-//            return application
-//        }
-//
-//        fun getContext(): Context {
-//            return getApplication().applicationContext
-//        }
-//    }
+    @Inject
+    lateinit var store: TimeEntryStore
+    override fun onCreate() {
+        super.onCreate()
+        store.loadData(applicationContext)
+    }
 }

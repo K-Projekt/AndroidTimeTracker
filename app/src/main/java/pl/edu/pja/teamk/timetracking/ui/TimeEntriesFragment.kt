@@ -2,24 +2,20 @@ package pl.edu.pja.teamk.timetracking.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
+import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntriesBinding
 import pl.edu.pja.teamk.timetracking.ui.home.HomeViewModel
-import pl.edu.pja.teamk.timetracking.ui.placeholder.PlaceholderContent
+import pl.edu.pja.teamk.timetracking.ui.home.areDateEqual
 
-/**
- * A fragment representing a list of Items.
- */
 @AndroidEntryPoint
 class TimeEntriesFragment : Fragment() {
 
+    private lateinit var binding: FragmentTimeEntriesBinding
     private var columnCount = 1
     private val viewModel: HomeViewModel by viewModels()
 
@@ -35,19 +31,18 @@ class TimeEntriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_time_entries, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyTimeEntryRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
-        }
+            val view = inflater.inflate(R.layout.fragment_time_entries, container, false)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentTimeEntriesBinding.bind(view)
+        binding.list.adapter = MyTimeEntryRecyclerViewAdapter(viewModel.storeData.data.filter { areDateEqual(it.date, viewModel.selectedDate) }.flatMap { it.entries })
+//        viewModel.listObservers.add {
+//            binding.list.adapter = MyTimeEntryRecyclerViewAdapter(viewModel.storeData.data.filter { areDateEqual(it.date, viewModel.selectedDate) }.flatMap { it.entries })
+//        }
+
     }
 
     companion object {
