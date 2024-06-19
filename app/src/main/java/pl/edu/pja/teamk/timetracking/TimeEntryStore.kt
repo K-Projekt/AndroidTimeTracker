@@ -7,31 +7,14 @@ import java.util.Date
 import kotlin.time.Duration
 
 class TimeEntryStore() : TimeSource {
-    init { }
-    val filename = "appdata"
-    var data: MutableList<DayData> = mutableListOf()
 
-    fun testFun(): String {
-        return "Hilt works!"
-    }
+    var data: MutableList<DayData> = mutableListOf()
 
     override fun loadData(context: Context) {
 
         // TODO: Damian Kreft - Replace with actual data.
         if (!File(context.filesDir, filename).exists()) {
-            data = mutableListOf(
-                DayData(Date(), mutableListOf(
-                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT3H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
-                )),
-                DayData(Date(), mutableListOf(
-                    TimeEntry(Date(), Duration.parse("PT2H45M"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT3H30M"), "test", 1),
-                    TimeEntry(Date(), Duration.parse("PT30M"), "test", 1),
-                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
-                )))
+            data = getMockData()
             return
         }
 
@@ -48,6 +31,27 @@ class TimeEntryStore() : TimeSource {
         file.writeText(dataJson)
 
         // TODO: Handle exceptions.
+    }
+
+    companion object {
+        const val filename = "data.json"
+
+        fun getMockData(): MutableList<DayData>{
+            return mutableListOf(
+                DayData(Date(), mutableListOf(
+                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT3H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
+                )),
+                DayData(Date(), mutableListOf(
+                    TimeEntry(Date(), Duration.parse("PT2H45M"), "test", 0),
+                    TimeEntry(Date(), Duration.parse("PT3H30M"), "test", 1),
+                    TimeEntry(Date(), Duration.parse("PT30M"), "test", 1),
+                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
+                )))
+
+        }
     }
 }
 
