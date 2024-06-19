@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
+import pl.edu.pja.teamk.timetracking.TimeEntry
 
-import pl.edu.pja.teamk.timetracking.ui.placeholder.PlaceholderContent.PlaceholderItem
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryBinding
 
 /**
@@ -15,7 +16,7 @@ import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryBinding
  * TODO: Replace the implementation with code for your data type.
  */
 class MyTimeEntryRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>
+    private val values: List<TimeEntry>
 ) : RecyclerView.Adapter<MyTimeEntryRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,8 +33,8 @@ class MyTimeEntryRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.idView.text = item.duration.toString()
+        holder.contentView.text = item.description
     }
 
     override fun getItemCount(): Int = values.size
