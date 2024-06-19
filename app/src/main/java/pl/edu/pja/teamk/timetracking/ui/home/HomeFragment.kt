@@ -20,8 +20,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,24 +28,9 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-//        _viewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-
         val calendar: CalendarView = binding.calendarView2
 
-        textView.text = viewModel.testText.value
-//        calendar.post {
-//            val date = Calendar.getInstance()
-//            date.timeInMillis = calendar.date
-//            textView.text = date.get(Calendar.DAY_OF_MONTH).toString()
-//
-//        }
-
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-//            textView.text = dayOfMonth.toString()
-//            textView.text = viewModel.testText.value
         }
         return root
     }
