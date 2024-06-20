@@ -40,7 +40,7 @@ class TimeEntriesFragment : Fragment() {
         binding = FragmentTimeEntriesBinding.bind(view)
         binding.list.adapter = MyTimeEntryRecyclerViewAdapter(mutableListOf())
         viewModel.listObservers.add {selected ->
-            val data = viewModel.storeData.data.filter { areDateEqual(it.date, selected) }.flatMap { it.entries }.toMutableList()
+            val data = viewModel.storeData.data.filter { areDateEqual(it.start, selected) }.toMutableList()
             (binding.list.adapter as MyTimeEntryRecyclerViewAdapter).setData(data)
             "yes"
         }
