@@ -13,10 +13,3 @@ data class TimeEntry(
     val description: String,
     val category: Int
 )
-
-@Serializable
-data class DayData(
-    @Contextual
-    val date: Date,
-    val entries: List<TimeEntry>
-)

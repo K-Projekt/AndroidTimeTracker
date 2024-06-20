@@ -1,61 +1,63 @@
 package pl.edu.pja.teamk.timetracking
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import java.io.File
 import java.util.Date
 import kotlin.time.Duration
 
 class TimeEntryStore : TimeSource {
-
-    var data: MutableList<DayData> = mutableListOf()
+    var data: MutableList<TimeEntry> = mutableListOf()
 
     override fun loadData(context: Context) {
-
-        // TODO: Damian Kreft - Replace with actual data.
-        if (!File(context.filesDir, filename).exists()) {
+        if (!File(context.filesDir, FILE_DATA).exists()) {
             data = getMockData()
+            Log.w("TimeEntryStore", "File $FILE_DATA has not been found - populating with mock data")
             return
         }
 
-        val file = File(context.filesDir, filename)
+        val file = File(context.filesDir, FILE_DATA)
         val text = file.readText()
 
-        // TODO: Handle exceptions.
-        data = Gson().fromJson(text, Array<DayData>::class.java).toMutableList()
+        data = try {
+            Gson().fromJson(text, Array<TimeEntry>::class.java).toMutableList()
+        } catch (e: Exception) {
+            Log.e("TimeEntryStore", "Error while reading data from file $FILE_DATA: ${e.message}")
+            getMockData()
+        }
     }
 
-    override fun saveData(context: Context, data: MutableList<DayData>) {
-        val dataJson = Gson().toJson(data)
-        val file = File(context.filesDir, filename)
-        file.writeText(dataJson)
-
-        // TODO: Handle exceptions.
+    override fun saveData(context: Context, data: MutableList<TimeEntry>) {
+        try {
+            val dataJson = Gson().toJson(data)
+            val file = File(context.filesDir, FILE_DATA)
+            file.writeText(dataJson)
+            Log.i("TimeEntryStore", "Data saved to file $FILE_DATA")
+        } catch (e: Exception) {
+            Log.e("TimeEntryStore", "Error while saving data to file $FILE_DATA: ${e.message}")
+        }
     }
 
     companion object {
-        const val filename = "data.json"
+        const val FILE_DATA = "data.json"
 
-        fun getMockData(): MutableList<DayData>{
+        fun getMockData(): MutableList<TimeEntry>{
             return mutableListOf(
-                DayData(Date(), mutableListOf(
-                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT3H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
-                )),
-                DayData(Date(), mutableListOf(
-                    TimeEntry(Date(), Duration.parse("PT2H45M"), "test", 0),
-                    TimeEntry(Date(), Duration.parse("PT3H30M"), "test", 1),
-                    TimeEntry(Date(), Duration.parse("PT30M"), "test", 1),
-                    TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
-                )))
-
+                TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                TimeEntry(Date(), Duration.parse("PT3H"), "test", 0),
+                TimeEntry(Date(), Duration.parse("PT2H"), "test", 0),
+                TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0),
+                TimeEntry(Date(), Duration.parse("PT2H45M"), "test", 0),
+                TimeEntry(Date(), Duration.parse("PT3H30M"), "test", 1),
+                TimeEntry(Date(), Duration.parse("PT30M"), "test", 1),
+                TimeEntry(Date(), Duration.parse("PT1H30M"), "test", 0)
+            )
         }
     }
 }
 
 interface TimeSource {
     fun loadData(context: Context)
-    fun saveData(context: Context, data: MutableList<DayData>)
+    fun saveData(context: Context, data: MutableList<TimeEntry>)
 }

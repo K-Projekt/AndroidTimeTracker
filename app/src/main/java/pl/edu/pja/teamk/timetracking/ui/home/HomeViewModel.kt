@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.properties.Delegates
 
 @HiltViewModel
