@@ -6,7 +6,7 @@ import java.io.File
 import java.util.Date
 import kotlin.time.Duration
 
-class TimeEntryStore() : TimeSource {
+class TimeEntryStore : TimeSource {
 
     var data: MutableList<DayData> = mutableListOf()
 

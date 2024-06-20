@@ -8,19 +8,20 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.properties.Delegates
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(handle: SavedStateHandle, private val store: TimeEntryStore) : ViewModel() {
-    val listObservers = mutableListOf<(Date) -> Unit>()
-    var selectedDate: Date by Delegates.observable(Date()) { _, _, _ ->
-        listObservers.forEach { it(selectedDate) }}
+    val listObservers = mutableListOf<(Date) -> String>()
+    private var selectedDate: Date by Delegates.observable(Date()) { _, _, newVal ->
+        listObservers.forEach { it(newVal) }}
     val storeData: TimeEntryStore = store
 
     fun setSelectedDate(ticks: Long) {
-        val date = Calendar.getInstance()
-        date.timeInMillis = ticks
-        selectedDate.time = ticks
+        val d1 = Date()
+        d1.time = ticks
+        selectedDate = d1
     }
 }
 

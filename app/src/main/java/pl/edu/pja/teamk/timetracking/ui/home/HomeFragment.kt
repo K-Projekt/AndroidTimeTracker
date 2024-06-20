@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.CalendarView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
-import java.util.Date
+import java.util.Calendar
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +30,12 @@ class HomeFragment : Fragment() {
         val calendar: CalendarView = binding.calendarView2
 
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            viewModel.setSelectedDate(view.date)
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(Calendar.YEAR, year)
+            selectedDate.set(Calendar.MONTH, month)
+            selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            viewModel.setSelectedDate(selectedDate.timeInMillis)
         }
         return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

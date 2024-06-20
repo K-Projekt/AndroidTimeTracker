@@ -9,7 +9,7 @@ import pl.edu.pja.teamk.timetracking.TimeEntry
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryBinding
 
 class MyTimeEntryRecyclerViewAdapter(
-    private val values: List<TimeEntry>
+    private var values: MutableList<TimeEntry>
 ) : RecyclerView.Adapter<MyTimeEntryRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,4 +42,11 @@ class MyTimeEntryRecyclerViewAdapter(
         }
     }
 
+    fun setData(list: MutableList<TimeEntry>) {
+        with (values) {
+            clear()
+            addAll(list)
+        }
+        notifyDataSetChanged()
+    }
 }
