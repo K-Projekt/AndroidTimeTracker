@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntriesBinding
@@ -17,7 +17,7 @@ class TimeEntriesFragment : Fragment() {
 
     private lateinit var binding: FragmentTimeEntriesBinding
     private var columnCount = 1
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +38,19 @@ class TimeEntriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTimeEntriesBinding.bind(view)
-        binding.list.adapter = MyTimeEntryRecyclerViewAdapter(viewModel.storeData.data.filter { areDateEqual(it.date, viewModel.selectedDate) }.flatMap { it.entries })
-//        viewModel.listObservers.add {
-//            binding.list.adapter = MyTimeEntryRecyclerViewAdapter(viewModel.storeData.data.filter { areDateEqual(it.date, viewModel.selectedDate) }.flatMap { it.entries })
-//        }
+        binding.list.adapter = MyTimeEntryRecyclerViewAdapter(mutableListOf())
+        viewModel.listObservers.add {selected ->
+            val data = viewModel.storeData.data.filter { areDateEqual(it.date, selected) }.flatMap { it.entries }.toMutableList()
+            (binding.list.adapter as MyTimeEntryRecyclerViewAdapter).setData(data)
+            "yes"
+        }
 
     }
 
     companion object {
 
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             TimeEntriesFragment().apply {
