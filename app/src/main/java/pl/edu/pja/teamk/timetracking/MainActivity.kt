@@ -1,7 +1,7 @@
 package pl.edu.pja.teamk.timetracking
 
 import android.os.Bundle
-import androidx.activity.compose.setContent
+import android.os.PersistableBundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.databinding.ActivityMainBinding
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,20 +39,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        store.loadData(applicationContext)
         super.onResume()
-
-        store.loadData(applicationContext)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        store.loadData(applicationContext)
     }
 
     override fun onPause() {
-        super.onPause()
-        // TODO: Damian Kreft - Replace mutableListOf with actual data.
         store.saveData(applicationContext, store.data)
+        super.onPause()
     }
 }

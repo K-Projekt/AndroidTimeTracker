@@ -12,8 +12,8 @@ import kotlin.properties.Delegates
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(handle: SavedStateHandle, private val store: TimeEntryStore) : ViewModel() {
-    val listObservers = mutableListOf<(Date) -> String>()
-    private var selectedDate: Date by Delegates.observable(Date()) { _, _, newVal ->
+    val listObservers = mutableListOf<(Date) -> Unit>()
+    var selectedDate: Date by Delegates.observable(Date()) { _, _, newVal ->
         listObservers.forEach { it(newVal) }}
     val storeData: TimeEntryStore = store
 
