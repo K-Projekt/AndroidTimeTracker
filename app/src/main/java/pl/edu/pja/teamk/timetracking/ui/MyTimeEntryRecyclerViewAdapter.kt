@@ -10,6 +10,7 @@ import android.widget.TextView
 import pl.edu.pja.teamk.timetracking.TimeEntry
 
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryBinding
+import kotlin.time.Duration
 
 class MyTimeEntryRecyclerViewAdapter(
     private var values: MutableList<TimeEntry>
@@ -30,6 +31,9 @@ class MyTimeEntryRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         val spanString = SpannableString(item.duration.toString())
+
+//        Duration.parse()
+//        item.duration.toIsoString()
         spanString.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, spanString.length, 0)
         holder.idView.text = spanString
         holder.contentView.text = item.description

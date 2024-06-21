@@ -20,6 +20,7 @@ class TimeEntriesFragment : Fragment() {
     private lateinit var binding: FragmentTimeEntriesBinding
     private var columnCount = 1
     private val viewModel: HomeViewModel by activityViewModels<HomeViewModel>()
+    private val viewTimeModel: TimeEntryDetailsViewModel by activityViewModels<TimeEntryDetailsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,7 @@ class TimeEntriesFragment : Fragment() {
         binding.list.adapter = MyTimeEntryRecyclerViewAdapter(mutableListOf())
         val adapter = binding.list.adapter as MyTimeEntryRecyclerViewAdapter
         adapter.onClickListener = View.OnClickListener {
-            val item = it.tag as TimeEntry
+            viewTimeModel.timeEntry = it.tag as TimeEntry
             val fragmentManager = parentFragmentManager
             fragmentManager.commit {
                 replace(R.id.fragment_home_container, TimeEntryDetails())
