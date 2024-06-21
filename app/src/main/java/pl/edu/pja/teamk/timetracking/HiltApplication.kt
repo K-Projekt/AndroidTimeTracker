@@ -12,4 +12,9 @@ class HiltApplication : Application() {
         super.onCreate()
         store.loadData(applicationContext)
     }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        store.saveData(applicationContext, store.data)
+    }
 }

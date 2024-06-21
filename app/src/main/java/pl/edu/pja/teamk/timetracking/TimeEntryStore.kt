@@ -20,11 +20,14 @@ class TimeEntryStore : TimeSource {
         val file = File(context.filesDir, FILE_DATA)
         val text = file.readText()
 
-        data = try {
+        try {
             Gson().fromJson(text, Array<TimeEntry>::class.java).toMutableList()
         } catch (e: Exception) {
             Log.e("TimeEntryStore", "Error while reading data from file $FILE_DATA: ${e.message}")
             getMockData()
+        }.also {
+            data = it
+            Log.i("TimeEntryStore", "Data loaded from file $FILE_DATA")
         }
     }
 

@@ -39,12 +39,11 @@ class TimeEntriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTimeEntriesBinding.bind(view)
         binding.list.adapter = MyTimeEntryRecyclerViewAdapter(mutableListOf())
+        (binding.list.adapter as MyTimeEntryRecyclerViewAdapter).setData(viewModel.storeData.data.filter { areDateEqual(it.start, viewModel.selectedDate) }.toMutableList())
         viewModel.listObservers.add {selected ->
             val data = viewModel.storeData.data.filter { areDateEqual(it.start, selected) }.toMutableList()
             (binding.list.adapter as MyTimeEntryRecyclerViewAdapter).setData(data)
-            "yes"
         }
-
     }
 
     companion object {

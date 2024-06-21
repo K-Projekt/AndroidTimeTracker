@@ -29,13 +29,15 @@ class HomeFragment : Fragment() {
 
         val calendar: CalendarView = binding.calendarView2
 
-        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance()
             selectedDate.set(Calendar.YEAR, year)
             selectedDate.set(Calendar.MONTH, month)
             selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             viewModel.setSelectedDate(selectedDate.timeInMillis)
         }
+
+        calendar.post { calendar.date = viewModel.selectedDate.time }
         return root
     }
 }
