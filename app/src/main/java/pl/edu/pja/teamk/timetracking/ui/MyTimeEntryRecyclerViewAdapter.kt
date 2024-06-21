@@ -1,5 +1,7 @@
 package pl.edu.pja.teamk.timetracking.ui
 
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View;
@@ -27,7 +29,9 @@ class MyTimeEntryRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.duration.toString()
+        val spanString = SpannableString(item.duration.toString())
+        spanString.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, spanString.length, 0)
+        holder.idView.text = spanString
         holder.contentView.text = item.description
     }
 
