@@ -2,7 +2,8 @@ package pl.edu.pja.teamk.timetracking.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView
 import pl.edu.pja.teamk.timetracking.TimeEntry
 
@@ -12,6 +13,7 @@ class MyTimeEntryRecyclerViewAdapter(
     private var values: MutableList<TimeEntry>
 ) : RecyclerView.Adapter<MyTimeEntryRecyclerViewAdapter.ViewHolder>() {
 
+    var onClickListener: View.OnClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(
@@ -21,7 +23,6 @@ class MyTimeEntryRecyclerViewAdapter(
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -36,6 +37,13 @@ class MyTimeEntryRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val contentView: TextView = binding.content
+
+        init {
+            binding.root.setOnClickListener {
+                it.tag = values[bindingAdapterPosition]
+                onClickListener?.onClick(it)
+            }
+        }
 
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"
