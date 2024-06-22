@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
+import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntriesBinding
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryDetailsBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -53,7 +55,8 @@ class TimeEntryDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val date = binding.TextInputDate
-        date.setText(viewTimeModel.timeEntry.duration.toIsoString())
+        val text = viewTimeModel.timeEntry.duration.toIsoString()
+        date.setText(text.subSequence(2, text.length))
     }
 
     companion object {
