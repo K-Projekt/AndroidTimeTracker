@@ -10,4 +10,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TimeEntryDetailsViewModel @Inject constructor(handle: SavedStateHandle) : ViewModel() {
     lateinit var timeEntry: TimeEntry
+
+    fun saveChanges() {
+
+    }
 }

@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.findFragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
 import pl.edu.pja.teamk.timetracking.TimeEntry
+import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntriesBinding
+import pl.edu.pja.teamk.timetracking.ui.home.HomeFragment
 import pl.edu.pja.teamk.timetracking.ui.home.HomeViewModel
 import pl.edu.pja.teamk.timetracking.ui.home.areDateEqual
 
@@ -45,11 +49,28 @@ class TimeEntriesFragment : Fragment() {
         val adapter = binding.list.adapter as MyTimeEntryRecyclerViewAdapter
         adapter.onClickListener = View.OnClickListener {
             viewTimeModel.timeEntry = it.tag as TimeEntry
-            val fragmentManager = parentFragmentManager
-            fragmentManager.commit {
-                replace(R.id.fragment_home_container, TimeEntryDetails())
-                addToBackStack(null)
+
+
+//            val fragmentManager = getFragmentManager()
+//            val transcation = fragmentManager?.beginTransaction()
+//            transcation?.replace(R.id.fragment_home_container, TimeEntryDetails())
+//            transcation?.addToBackStack(null)
+//            transcation?.commit()
+
+            val fm = activity?.supportFragmentManager
+//            if (fm.getFragment(savedInstanceState!!, "TimeEntryDetails") != null) {
+            if (fm != null) {
+                val trans = fm.beginTransaction()
+                trans.replace(R.id.fragment_home_container, TimeEntryDetails(), "TimeEntryDetails")
+                trans.addToBackStack(null)
+                trans.commit()
             }
+
+//            commit {
+//                    add(TimeEntryDetails(), "TimeEntryDetails")
+//                    addToBackStack(null)
+//                }
+//            }
         }
         adapter.setData(viewModel.storeData.data.filter { areDateEqual(it.start, viewModel.selectedDate) }.toMutableList())
         viewModel.listObservers.add {selected ->

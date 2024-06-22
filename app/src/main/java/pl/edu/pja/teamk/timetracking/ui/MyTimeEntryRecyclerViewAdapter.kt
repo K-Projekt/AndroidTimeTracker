@@ -32,8 +32,6 @@ class MyTimeEntryRecyclerViewAdapter(
         val item = values[position]
         val spanString = SpannableString(item.duration.toString())
 
-//        Duration.parse()
-//        item.duration.toIsoString()
         spanString.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, spanString.length, 0)
         holder.idView.text = spanString
         holder.contentView.text = item.description
