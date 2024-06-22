@@ -28,8 +28,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/TextInputDate"
                 android:hint="@string/time_entry_details_field_date"
-                android:text=""
-                android:adapter="SomeAdapter"/>
+                android:text="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

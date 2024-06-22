@@ -50,27 +50,13 @@ class TimeEntriesFragment : Fragment() {
         adapter.onClickListener = View.OnClickListener {
             viewTimeModel.timeEntry = it.tag as TimeEntry
 
-
-//            val fragmentManager = getFragmentManager()
-//            val transcation = fragmentManager?.beginTransaction()
-//            transcation?.replace(R.id.fragment_home_container, TimeEntryDetails())
-//            transcation?.addToBackStack(null)
-//            transcation?.commit()
-
             val fm = activity?.supportFragmentManager
-//            if (fm.getFragment(savedInstanceState!!, "TimeEntryDetails") != null) {
-            if (fm != null) {
+            if (fm != null && fm.findFragmentByTag("TimeEntryDetails") == null) {
                 val trans = fm.beginTransaction()
-                trans.replace(R.id.fragment_home_container, TimeEntryDetails(), "TimeEntryDetails")
+                trans.add(R.id.fragment_home_container, TimeEntryDetails(), "TimeEntryDetails")
                 trans.addToBackStack(null)
                 trans.commit()
             }
-
-//            commit {
-//                    add(TimeEntryDetails(), "TimeEntryDetails")
-//                    addToBackStack(null)
-//                }
-//            }
         }
         adapter.setData(viewModel.storeData.data.filter { areDateEqual(it.start, viewModel.selectedDate) }.toMutableList())
         viewModel.listObservers.add {selected ->
