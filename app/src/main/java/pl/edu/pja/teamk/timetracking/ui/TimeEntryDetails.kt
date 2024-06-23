@@ -23,7 +23,7 @@ class TimeEntryDetails : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_time_entry_details, container, false)
         val root: View = binding.root
 
@@ -58,7 +58,7 @@ class TimeEntryDetails : Fragment() {
                 val dur = Duration.parseIsoStringOrNull(TIMO_FORMAT_ISO_SUFFIX + binding.TextInputDate.text.toString())
                 if (dur != null) {
                     val item = TimeEntry(viewModelHome.selectedDate,
-                        dur, TIME_ENTRY_DEFAULTS_DESCRIPTION, TIME_ENTRY_DEFAULTS_CATEGORY)
+                        dur, binding.TextInputDescription.text.toString(), TIME_ENTRY_DEFAULTS_CATEGORY)
                     viewModelHome.storeData.data.add(item)
                     viewTimeModel.invoke()
                 }
