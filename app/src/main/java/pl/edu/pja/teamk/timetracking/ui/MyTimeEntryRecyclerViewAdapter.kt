@@ -10,7 +10,6 @@ import android.widget.TextView
 import pl.edu.pja.teamk.timetracking.TimeEntry
 
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryBinding
-import kotlin.time.Duration
 
 class MyTimeEntryRecyclerViewAdapter(
     private var values: MutableList<TimeEntry>
