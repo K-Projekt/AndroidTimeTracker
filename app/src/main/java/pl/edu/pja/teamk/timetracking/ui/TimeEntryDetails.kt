@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelStore
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
-import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntriesBinding
 import pl.edu.pja.teamk.timetracking.databinding.FragmentTimeEntryDetailsBinding
+import pl.edu.pja.teamk.timetracking.ui.home.HomeFragment
+import pl.edu.pja.teamk.timetracking.ui.home.HomeViewModel
+import kotlin.time.Duration
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,8 +29,8 @@ private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint
 class TimeEntryDetails : Fragment() {
-    // TODO: Rename and change types of parameters
-    private val viewTimeModel: TimeEntryDetailsViewModel by activityViewModels<TimeEntryDetailsViewModel>()
+    private val viewModelHome: HomeViewModel by activityViewModels<HomeViewModel>()
+    private val viewTimeModel: TimeEntryDetailsViewModel by  activityViewModels<TimeEntryDetailsViewModel>()
     private lateinit var binding: FragmentTimeEntryDetailsBinding
 
     private var param1: String? = null
@@ -45,9 +48,31 @@ class TimeEntryDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_time_entry_details, container, false)
         val root: View = binding.root
+
+        val description = binding.TextInputDescription
+        binding.buttonSave.setOnClickListener {
+            val dur = Duration.parseIsoStringOrNull(TIMO_FORMAT_ISO_SUFFIX + binding.TextInputDate.text.toString())
+            if (dur != null) {
+                viewTimeModel.timeEntry.duration = dur
+                viewTimeModel.timeEntry.description = description.text.toString()
+                viewTimeModel.invoke()
+            }
+        }
+
+        binding.buttonDelete.setOnClickListener {
+            viewModelHome.storeData.data.remove(viewTimeModel.timeEntry)
+            viewTimeModel.invoke()
+
+            val fm = activity?.supportFragmentManager
+            val frag = fm?.findFragmentByTag(FRAGMENT_NAME_TIME_ENTRY_DETAILS)
+            if (frag != null) {
+                val trans = fm.beginTransaction()
+                trans.remove(frag)
+                trans.commit()
+            }
+        }
 
         return root
     }
@@ -55,20 +80,16 @@ class TimeEntryDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val date = binding.TextInputDate
+        val description = binding.TextInputDescription
         val text = viewTimeModel.timeEntry.duration.toIsoString()
-        date.setText(text.subSequence(2, text.length))
+        date.setText(text.subSequence(INDEX_NEXT_AFTER_SUFFIX, text.length))
+        description.setText(viewTimeModel.timeEntry.description)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TimeEntryDetails.
-         */
-        // TODO: Rename and change types and number of parameters
+        const val TIMO_FORMAT_ISO_SUFFIX = "PT"
+        const val FRAGMENT_NAME_TIME_ENTRY_DETAILS = "TimeEntryDetails"
+        const val INDEX_NEXT_AFTER_SUFFIX = 2
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             TimeEntryDetails().apply {

@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import pl.edu.pja.teamk.timetracking.ui.TimeEntryDetailsViewModel
 import javax.inject.Singleton
 
 @Module
@@ -13,5 +14,11 @@ object AppModule {
     @Singleton
     fun provideTimeEntryStore(): TimeEntryStore {
         return TimeEntryStore()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTimeEntryDetailsViewModel(): TimeEntryDetailsViewModel {
+        return TimeEntryDetailsViewModel()
     }
 }

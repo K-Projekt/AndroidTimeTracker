@@ -8,4 +8,6 @@
     <string name="time_entry_details_field_description">Opis</string>
     <string name="time_entry_details_field_date">Data</string>
     <string name="time_entry_details_button_text">Zapisz</string>
+    <string name="time_entry_details_field_category">Kategoria</string>
+    <string name="time_entry_details_buttonDelete_text">Usuń</string>
 </resources>
