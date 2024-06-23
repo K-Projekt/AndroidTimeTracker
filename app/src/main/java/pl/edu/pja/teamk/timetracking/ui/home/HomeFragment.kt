@@ -8,9 +8,11 @@ import android.widget.CalendarView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.pja.teamk.timetracking.R
 import pl.edu.pja.teamk.timetracking.databinding.FragmentHomeBinding
+import pl.edu.pja.teamk.timetracking.ui.TimeEntryDetails
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -35,6 +37,17 @@ class HomeFragment : Fragment() {
             selectedDate.set(Calendar.MONTH, month)
             selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             viewModel.setSelectedDate(selectedDate.timeInMillis)
+        }
+
+        val fab: View = binding.fab
+        fab.setOnClickListener { view ->
+            val fm = activity?.supportFragmentManager
+                    if (fm != null && fm.findFragmentByTag("AddTimeEntryDetails") == null) {
+                        val trans = fm.beginTransaction()
+                        trans.add(R.id.fragment_home_container, TimeEntryDetails(), "AddTimeEntryDetails")
+                        trans.addToBackStack(null)
+                        trans.commit()
+                    }
         }
 
         calendar.post { calendar.date = viewModel.selectedDate.time }

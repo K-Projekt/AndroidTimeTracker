@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimeEntryDetailsViewModel @Inject constructor() : ViewModel() {
-    lateinit var timeEntry: TimeEntry
+    var timeEntry: TimeEntry? = null
     val listObservers = mutableListOf<() -> Unit>()
 
     fun invoke() {
