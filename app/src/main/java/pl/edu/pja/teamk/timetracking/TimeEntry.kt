@@ -7,9 +7,9 @@ import kotlin.time.Duration
 @Serializable
 data class TimeEntry(
     @Contextual
-    val start: Date,
+    var start: Date,
     @Contextual
-    val duration: Duration,
-    val description: String,
-    val category: Int
+    var duration: Duration,
+    var description: String,
+    var category: Int
 )
