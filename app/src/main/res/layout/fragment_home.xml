@@ -10,19 +10,31 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_home_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".ui.home.HomeFragment">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/baseline_edit_48"
+                android:contentDescription="@string/time_entry_details_fab_description"
+                android:layout_margin="16dp"
+                tools:ignore="MissingConstraints" />
+
             <CalendarView
                 android:id="@+id/calendarView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/fragment_home_recycler_container_view"/>
+                app:layout_constraintBottom_toTopOf="@id/fragment_home_recycler_container_view" />
+
             <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,8 +45,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendarView2"
-                app:layout_constraintStart_toStartOf="parent"
                 />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
