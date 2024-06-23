@@ -11,4 +11,5 @@
     <string name="time_entry_details_field_category">Kategoria</string>
     <string name="time_entry_details_buttonDelete_text">Usuń</string>
     <string name="time_entry_details_fab_description">Dodaj wpis czasu pracy</string>
+    <string name="geofence_transition_invalid_type">This geofence transition is not handled.</string>
 </resources>
